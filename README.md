@@ -1,4 +1,4 @@
 epsteam
 =======
-MADE IN EPSI
-epsteam
+NOSQL PROJECT MADE IN EPSI
+©GROUPE ELITE 2014
