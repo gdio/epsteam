@@ -12,12 +12,46 @@
 		</style>
 		<script type="text/javascript" language="javascript" src="./media/js/jquery.js"></script>
 		<script type="text/javascript" language="javascript" src="./media/js/jquery.dataTables.js"></script>
+		<script type="text/javascript" language="javascript" src="./media/js/custom_function.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#example').dataTable( {
+				var oTable = $('#example').dataTable( {
 					"bJQueryUI": true,
-					"sPaginationType": "full_numbers"
+					"sPaginationType": "full_numbers",
+					"bProcessing": true,
+        			
+					"sAjaxSource": './select.php',
+					"aoColumns" : [
+                       { "mData": "player" },
+                       { "mData": "game" },
+                       { "mData": "badge" }
+                   ]
 				} );
+
+				var autotimer = true;
+				var autorefresh = setInterval( function () {
+					oTable.fnReloadAjax('./select.php');
+				}, 20000 );
+
+				$("#refresh_button").click(function(){
+					if(autotimer == true)
+				    {
+				        $('#refresh_button').attr("src", "./media/images/refresh_off.png");
+				        autotimer = false;
+				        clearInterval(autorefresh);
+
+				    }
+				    else
+				    {
+				        $('#refresh_button').attr("src", "./media/images/refresh_on.png");
+				        autotimer = true;
+				        autorefresh = setInterval( function () {
+				                    oTable.fnReloadAjax('./select.php');
+				        }, 20000 );
+				    }
+				})
+
+
 			} );
 		</script>
 	</head>
@@ -27,26 +61,26 @@
 			<img src="./media/images/logo.jpg" style="vertical-align: middle; width: 80px;"/>	EPSTEAM™
 			</div>
 			
-
 			
-			<h1>Players stats</h1>
+			
+			<h1>Players stats <img id="refresh_button" src="./media/images/refresh_on.png" style="cursor: pointer; vertical-align:middle"/></h1>
 			<div id="demo">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example" width="100%">
 	<thead>
 	<tr>
-	<th>Name</th>
-	<th>Badge</th>
+	<th>Player</th>
 	<th>Game</th>
+	<th>Badge</th>
 </tr>
 </thead>
 <tfoot>
 	<tr>
-	<th>Name</th>
-	<th>Badge</th>
+	<th>Player</th>
 	<th>Game</th>
+	<th>Badge</th>
 </tr>
 </tfoot>
-<tr>
+<!--<tr>
 	<td>Wynne</td>
 	<td>red</td>
 	<td>magna.</td>
@@ -545,7 +579,7 @@
 	<td>Yetta</td>
 	<td>yellow</td>
 	<td>Morbi</td>
-</tr>
+</tr>-->
 </table>
 
 			</div>
